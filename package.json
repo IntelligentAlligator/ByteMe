@@ -2,7 +2,7 @@
   "name": "digital-cookbook",
   "version": "1.0.0",
   "private": true,
-  "homepage": "https://kduniia.github.io/ByteMe/",
+  "homepage": "https://IntelligentAlligator.github.io/ByteMe/",
   "scripts": {
     "dev": "vite",
     "build": "vite build",

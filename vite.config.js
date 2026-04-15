@@ -3,5 +3,5 @@ import react from '@vitejs/plugin-react';
 
 export default defineConfig({
   plugins: [react()],
-  base: '/ByteMe/', // for GitHub Pages
+  base: '/ByteMe/', // for GitHub Pages (username changed)
 });
