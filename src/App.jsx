@@ -1,7 +1,11 @@
+
+import React, { useState, useEffect, useRef } from 'react';
+
+function App() {
   // Set dark background on the whole page
   useEffect(() => {
-    document.body.style.background = darkBg;
-    document.body.style.color = textColor;
+    document.body.style.background = '#181a1b';
+    document.body.style.color = '#eaeaea';
     document.body.style.minHeight = '100vh';
     document.body.style.margin = '0';
     document.body.style.fontFamily = 'Inter, system-ui, sans-serif';
@@ -13,9 +17,6 @@
       document.body.style.fontFamily = '';
     };
   }, []);
-import React, { useState, useEffect, useRef } from 'react';
-
-function App() {
   // Minimalist dark theme colors
   const darkBg = '#181a1b';
   const darkCard = '#232526';
@@ -40,10 +41,22 @@ function App() {
   const [editId, setEditId] = useState(null);
   const fileInputRef = useRef();
 
+  const [loadError, setLoadError] = useState(null);
   useEffect(() => {
-    fetch('./recipes.json')
-      .then((res) => res.json())
-      .then(setRecipes);
+    // Use BASE_URL for correct path on GitHub Pages
+    const base = import.meta.env.BASE_URL || '/';
+    fetch(`${base}recipes.json`)
+      .then((res) => {
+        if (!res.ok) throw new Error(`Failed to load recipes.json: ${res.status}`);
+        return res.json();
+      })
+      .then(setRecipes)
+      .catch((err) => {
+        setLoadError(err.message);
+        // Also log to console for debugging
+        // eslint-disable-next-line no-console
+        console.error('Error loading recipes.json:', err);
+      });
   }, []);
 
   const handleFormChange = (e) => {
@@ -128,6 +141,20 @@ function App() {
         padding: 0,
       }}
     >
+      {loadError && (
+        <div style={{background: '#ffdddd', color: '#a00', padding: 16, borderRadius: 8, margin: '24px auto', maxWidth: 600, textAlign: 'center', border: '1px solid #a00', fontSize: 18}}>
+          <strong>Error loading recipes:</strong> {loadError}<br/>
+          <span style={{color: '#a00'}}>The file <code>recipes.json</code> could not be loaded from <code>{import.meta.env.BASE_URL || '/'}recipes.json</code>.</span><br/>
+          Please check that <code>recipes.json</code> is present and accessible in the deployed site.<br/>
+          <span style={{color: '#a00'}}>If you see a blank page, open the browser console for errors.</span>
+        </div>
+      )}
+      {!loadError && recipes.length === 0 && (
+        <div style={{background: '#222', color: '#ff0', padding: 16, borderRadius: 8, margin: '24px auto', maxWidth: 600, textAlign: 'center', border: '1px solid #555', fontSize: 18}}>
+          <strong>No recipes loaded.</strong><br/>
+          If you expected to see recipes, check that <code>recipes.json</code> is present and accessible.<br/>
+        </div>
+      )}
       <header style={{ padding: '64px 0 32px 0', textAlign: 'center' }}>
         <h1
           style={{
