@@ -1,12 +1,28 @@
+  // Set dark background on the whole page
+  useEffect(() => {
+    document.body.style.background = darkBg;
+    document.body.style.color = textColor;
+    document.body.style.minHeight = '100vh';
+    document.body.style.margin = '0';
+    document.body.style.fontFamily = 'Inter, system-ui, sans-serif';
+    return () => {
+      document.body.style.background = '';
+      document.body.style.color = '';
+      document.body.style.minHeight = '';
+      document.body.style.margin = '';
+      document.body.style.fontFamily = '';
+    };
+  }, []);
 import React, { useState, useEffect, useRef } from 'react';
 
 function App() {
-  const darkBg = '#181c1f';
-  const darkCard = '#23272b';
+  // Minimalist dark theme colors
+  const darkBg = '#181a1b';
+  const darkCard = '#232526';
   const accent = '#7fffd4';
-  const textColor = '#f5f5f5';
-  const tagBg = '#2a3a3f';
-  const tagColor = '#7fffd4';
+  const textColor = '#eaeaea';
+  const borderColor = '#232728';
+  const accentSoft = '#2a3a3f';
 
   const [recipes, setRecipes] = useState([]);
   const [search, setSearch] = useState('');
@@ -102,18 +118,51 @@ function App() {
   );
 
   return (
-    <div style={{ maxWidth: 800, margin: '2rem auto', fontFamily: 'Inter, sans-serif', background: '#fff', borderRadius: 12, boxShadow: '0 2px 16px #0001', padding: 32 }}>
-      <h1 style={{ textAlign: 'center', letterSpacing: 1, fontWeight: 800, color: '#2a5', marginBottom: 32 }}>Digital Cookbook</h1>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
+    <main
+      style={{
+        minHeight: '100vh',
+        background: 'none',
+        color: textColor,
+        fontFamily: 'Inter, system-ui, sans-serif',
+        margin: 0,
+        padding: 0,
+      }}
+    >
+      <header style={{ padding: '64px 0 32px 0', textAlign: 'center' }}>
+        <h1
+          style={{
+            letterSpacing: 2,
+            fontWeight: 700,
+            color: accent,
+            fontSize: 40,
+            margin: 0,
+            background: 'none',
+            textTransform: 'uppercase',
+          }}
+        >
+          Minimalist Cookbook
+        </h1>
+        <p style={{ color: '#b0b0b0', fontSize: 18, marginTop: 12, marginBottom: 0 }}>
+          A minimalist, dark-themed website for your favorite recipes.
+        </p>
+      </header>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          marginBottom: 24,
+        }}
+      >
               {/* Quick recipe list overview */}
               {!selected && !showForm && recipes.length > 0 && (
-                <div style={{ marginBottom: 24, background: '#f6f8fa', borderRadius: 8, padding: '16px 20px', boxShadow: '0 1px 6px #0001' }}>
-                  <div style={{ fontWeight: 600, color: '#2a5', marginBottom: 6 }}>
+                <div style={{ marginBottom: 24, background: darkCard, borderRadius: 8, padding: '16px 20px', boxShadow: '0 1px 6px #0002', border: `1px solid ${borderColor}` }}>
+                  <div style={{ fontWeight: 600, color: accent, marginBottom: 6 }}>
                     {recipes.length} Recipes:
                   </div>
                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12 }}>
                     {recipes.map(r => (
-                      <span key={r.id} style={{ background: '#e0f7e9', color: '#247a3c', borderRadius: 4, padding: '2px 10px', fontSize: 15, fontWeight: 500, cursor: 'pointer' }}
+                      <span key={r.id} style={{ background: accentSoft, color: accent, borderRadius: 4, padding: '2px 10px', fontSize: 15, fontWeight: 500, cursor: 'pointer' }}
                         onClick={() => setSelected(r)}
                         title={r.title}
                       >
@@ -128,32 +177,55 @@ function App() {
           placeholder="Search recipes..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          style={{ width: '75%', padding: 12, marginRight: 10, border: '1px solid #cfcfcf', borderRadius: 6, fontSize: 16 }}
+          style={{
+            width: '75%',
+            padding: 12,
+            marginRight: 10,
+            border: `1px solid ${borderColor}`,
+            borderRadius: 6,
+            fontSize: 16,
+            background: darkCard,
+            color: textColor,
+            outline: 'none',
+          }}
         />
-        <button onClick={() => setShowForm((v) => !v)} style={{ padding: '12px 24px', fontSize: 16, background: '#2a5', color: '#fff', border: 'none', borderRadius: 6, cursor: 'pointer', fontWeight: 600, transition: 'background 0.2s' }}
-          onMouseOver={e => e.currentTarget.style.background = '#247a3c'}
-          onMouseOut={e => e.currentTarget.style.background = '#2a5'}>
+        <button
+          onClick={() => setShowForm((v) => !v)}
+          style={{
+            padding: '12px 24px',
+            fontSize: 16,
+            background: accentSoft,
+            color: accent,
+            border: 'none',
+            borderRadius: 6,
+            cursor: 'pointer',
+            fontWeight: 600,
+            transition: 'background 0.2s',
+          }}
+          onMouseOver={e => e.currentTarget.style.background = accent}
+          onMouseOut={e => e.currentTarget.style.background = accentSoft}
+        >
           {showForm ? 'Cancel' : 'Add Recipe'}
         </button>
       </div>
 
       {showForm && (
-        <form onSubmit={handleFormSubmit} style={{ background: '#f6f8fa', padding: 28, borderRadius: 10, marginBottom: 32, boxShadow: '0 1px 6px #0001' }}>
-          <h2 style={{ marginTop: 0, color: '#2a5', fontWeight: 700 }}>{editId !== null ? 'Edit Recipe' : 'Add New Recipe'}</h2>
+        <form onSubmit={handleFormSubmit} style={{ background: darkCard, padding: 28, borderRadius: 10, marginBottom: 32, boxShadow: '0 1px 6px #0002', border: `1px solid ${borderColor}` }}>
+          <h2 style={{ marginTop: 0, color: accent, fontWeight: 700 }}>{editId !== null ? 'Edit Recipe' : 'Add New Recipe'}</h2>
           <input
             name="title"
             value={form.title}
             onChange={handleFormChange}
             placeholder="Title"
             required
-            style={{ width: '100%', padding: 10, marginBottom: 12, border: '1px solid #cfcfcf', borderRadius: 6, fontSize: 16 }}
+            style={{ width: '100%', padding: 10, marginBottom: 12, border: `1px solid ${borderColor}`, borderRadius: 6, fontSize: 16, background: darkBg, color: textColor }}
           />
           <input
             name="description"
             value={form.description}
             onChange={handleFormChange}
             placeholder="Description"
-            style={{ width: '100%', padding: 10, marginBottom: 12, border: '1px solid #cfcfcf', borderRadius: 6, fontSize: 16 }}
+            style={{ width: '100%', padding: 10, marginBottom: 12, border: `1px solid ${borderColor}`, borderRadius: 6, fontSize: 16, background: darkBg, color: textColor }}
           />
           <textarea
             name="ingredients"
@@ -161,7 +233,7 @@ function App() {
             onChange={handleFormChange}
             placeholder="Ingredients (one per line)"
             rows={4}
-            style={{ width: '100%', padding: 10, marginBottom: 12, border: '1px solid #cfcfcf', borderRadius: 6, fontSize: 16 }}
+            style={{ width: '100%', padding: 10, marginBottom: 12, border: `1px solid ${borderColor}`, borderRadius: 6, fontSize: 16, background: darkBg, color: textColor }}
           />
           <textarea
             name="instructions"
@@ -169,50 +241,63 @@ function App() {
             onChange={handleFormChange}
             placeholder="Instructions (one per line)"
             rows={4}
-            style={{ width: '100%', padding: 10, marginBottom: 12, border: '1px solid #cfcfcf', borderRadius: 6, fontSize: 16 }}
+            style={{ width: '100%', padding: 10, marginBottom: 12, border: `1px solid ${borderColor}`, borderRadius: 6, fontSize: 16, background: darkBg, color: textColor }}
           />
           <input
             name="tags"
             value={form.tags}
             onChange={handleFormChange}
             placeholder="Tags (comma separated)"
-            style={{ width: '100%', padding: 10, marginBottom: 12, border: '1px solid #cfcfcf', borderRadius: 6, fontSize: 16 }}
+            style={{ width: '100%', padding: 10, marginBottom: 12, border: `1px solid ${borderColor}`, borderRadius: 6, fontSize: 16, background: darkBg, color: textColor }}
           />
           <input
             name="image"
             value={form.image}
             onChange={handleFormChange}
             placeholder="Image URL or path"
-            style={{ width: '100%', padding: 10, marginBottom: 18, border: '1px solid #cfcfcf', borderRadius: 6, fontSize: 16 }}
+            style={{ width: '100%', padding: 10, marginBottom: 18, border: `1px solid ${borderColor}`, borderRadius: 6, fontSize: 16, background: darkBg, color: textColor }}
           />
-          <button type="submit" style={{ padding: '12px 28px', fontSize: 16, background: '#2a5', color: '#fff', border: 'none', borderRadius: 6, cursor: 'pointer', fontWeight: 600, transition: 'background 0.2s' }}
-            onMouseOver={e => e.currentTarget.style.background = '#247a3c'}
-            onMouseOut={e => e.currentTarget.style.background = '#2a5'}>
+          <button
+            type="submit"
+            style={{
+              padding: '12px 28px',
+              fontSize: 16,
+              background: accentSoft,
+              color: accent,
+              border: 'none',
+              borderRadius: 6,
+              cursor: 'pointer',
+              fontWeight: 600,
+              transition: 'background 0.2s',
+            }}
+            onMouseOver={e => e.currentTarget.style.background = accent}
+            onMouseOut={e => e.currentTarget.style.background = accentSoft}
+          >
             {editId !== null ? 'Save Changes' : 'Add Recipe'}
           </button>
         </form>
       )}
 
       {selected ? (
-        <div style={{ background: '#f6f8fa', borderRadius: 10, padding: 32, boxShadow: '0 1px 6px #0001' }}>
+        <div style={{ background: darkCard, borderRadius: 10, padding: 32, boxShadow: '0 1px 6px #0002', border: `1px solid ${borderColor}` }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
-            <button onClick={() => setSelected(null)} style={{ padding: '8px 18px', fontSize: 15, background: '#eee', border: 'none', borderRadius: 6, cursor: 'pointer', fontWeight: 500 }}>← Back</button>
-            <button onClick={() => handleEdit(selected)} style={{ padding: '8px 18px', fontSize: 15, background: '#2a5', color: '#fff', border: 'none', borderRadius: 6, cursor: 'pointer', fontWeight: 500, marginLeft: 10 }}>Edit</button>
+            <button onClick={() => setSelected(null)} style={{ padding: '8px 18px', fontSize: 15, background: accentSoft, color: accent, border: 'none', borderRadius: 6, cursor: 'pointer', fontWeight: 500 }}>← Back</button>
+            <button onClick={() => handleEdit(selected)} style={{ padding: '8px 18px', fontSize: 15, background: accentSoft, color: accent, border: 'none', borderRadius: 6, cursor: 'pointer', fontWeight: 500, marginLeft: 10 }}>Edit</button>
           </div>
-          <h2 style={{ color: '#2a5', fontWeight: 700 }}>{selected.title}</h2>
+          <h2 style={{ color: accent, fontWeight: 700 }}>{selected.title}</h2>
           {selected.image && (
-            <img src={selected.image} alt={selected.title} style={{ maxWidth: '100%', borderRadius: 10, marginBottom: 18, boxShadow: '0 1px 6px #0001' }} />
+            <img src={selected.image} alt={selected.title} style={{ maxWidth: '100%', borderRadius: 10, marginBottom: 18, boxShadow: '0 1px 6px #0002', border: `1px solid ${borderColor}` }} />
           )}
           {selected.description && (
             <p style={{ fontStyle: 'italic', color: '#555', marginBottom: 18 }}>{selected.description}</p>
           )}
-          <h4 style={{ color: '#247a3c', marginBottom: 8 }}>Ingredients</h4>
+          <h4 style={{ color: accent, marginBottom: 8 }}>Ingredients</h4>
           <ul style={{ marginBottom: 18 }}>
             {selected.ingredients.map((ing, i) => (
               <li key={i} style={{ fontSize: 16, marginBottom: 2 }}>{ing}</li>
             ))}
           </ul>
-          <h4 style={{ color: '#247a3c', marginBottom: 8 }}>Instructions</h4>
+          <h4 style={{ color: accent, marginBottom: 8 }}>Instructions</h4>
           <ol style={{ marginBottom: 18 }}>
             {selected.instructions.map((step, i) => (
               <li key={i} style={{ fontSize: 16, marginBottom: 2 }}>{step}</li>
@@ -221,7 +306,7 @@ function App() {
           {selected.tags && (
             <div style={{ marginTop: 10 }}>
               {selected.tags.map((tag) => (
-                <span key={tag} style={{ background: '#e0f7e9', color: '#247a3c', borderRadius: 4, padding: '2px 10px', marginRight: 8, fontSize: 13, fontWeight: 500 }}>{tag}</span>
+                <span key={tag} style={{ background: accentSoft, color: accent, borderRadius: 4, padding: '2px 10px', marginRight: 8, fontSize: 13, fontWeight: 500 }}>{tag}</span>
               ))}
             </div>
           )}
@@ -233,19 +318,45 @@ function App() {
           ) : (
             <ul style={{ listStyle: 'none', padding: 0, display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: 28 }}>
               {filtered.map((r) => (
-                <li key={r.id} style={{ background: '#f6f8fa', borderRadius: 10, boxShadow: '0 1px 6px #0001', display: 'flex', alignItems: 'center', marginBottom: 0, padding: 18, transition: 'box-shadow 0.2s', cursor: 'pointer' }}
-                  onMouseOver={e => e.currentTarget.style.boxShadow = '0 4px 16px #0002'}
-                  onMouseOut={e => e.currentTarget.style.boxShadow = '0 1px 6px #0001'}
-                  onClick={() => setSelected(r)}>
+                <li
+                  key={r.id}
+                  style={{
+                    background: darkCard,
+                    borderRadius: 10,
+                    boxShadow: '0 1px 6px #0002',
+                    border: `1px solid ${borderColor}`,
+                    display: 'flex',
+                    alignItems: 'center',
+                    marginBottom: 0,
+                    padding: 18,
+                    transition: 'box-shadow 0.2s',
+                    cursor: 'pointer',
+                  }}
+                  onMouseOver={e => e.currentTarget.style.boxShadow = '0 4px 16px #0003'}
+                  onMouseOut={e => e.currentTarget.style.boxShadow = '0 1px 6px #0002'}
+                  onClick={() => setSelected(r)}
+                >
                   {r.image && (
-                    <img src={r.image} alt={r.title} style={{ width: 70, height: 70, objectFit: 'cover', borderRadius: 8, marginRight: 18, boxShadow: '0 1px 6px #0001' }} />
+                    <img
+                      src={r.image}
+                      alt={r.title}
+                      style={{
+                        width: 70,
+                        height: 70,
+                        objectFit: 'cover',
+                        borderRadius: 8,
+                        marginRight: 18,
+                        boxShadow: '0 1px 6px #0002',
+                        border: `1px solid ${borderColor}`,
+                      }}
+                    />
                   )}
                   <div style={{ flex: 1 }}>
-                    <div style={{ fontSize: 21, color: '#2a5', fontWeight: 700, marginBottom: 4 }}>{r.title}</div>
+                    <div style={{ fontSize: 21, color: accent, fontWeight: 700, marginBottom: 4 }}>{r.title}</div>
                     {r.description && (
-                      <div style={{ fontSize: 15, color: '#555', margin: '4px 0' }}>{r.description}</div>
+                      <div style={{ fontSize: 15, color: '#b0b0b0', margin: '4px 0' }}>{r.description}</div>
                     )}
-                    <div style={{ fontSize: 13, color: '#247a3c', marginTop: 2 }}>{r.tags?.join(', ')}</div>
+                    <div style={{ fontSize: 13, color: accent, marginTop: 2 }}>{r.tags?.join(', ')}</div>
                   </div>
                 </li>
               ))}
@@ -253,7 +364,7 @@ function App() {
           )}
         </div>
       )}
-    </div>
+    </main>
   );
 }
 
