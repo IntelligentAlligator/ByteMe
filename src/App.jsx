@@ -1,6 +1,11 @@
-import React, { useEffect, useState } from 'react';
-
 function App() {
+  const darkBg = '#181c1f';
+  const darkCard = '#23272b';
+  const accent = '#7fffd4';
+  const textColor = '#f5f5f5';
+  const tagBg = '#2a3a3f';
+  const tagColor = '#7fffd4';
+
   const [recipes, setRecipes] = useState([]);
   const [search, setSearch] = useState('');
   const [selected, setSelected] = useState(null);
@@ -11,9 +16,11 @@ function App() {
     ingredients: '',
     instructions: '',
     tags: '',
-    image: ''
+    image: '',
+    imageFile: null
   });
   const [editId, setEditId] = useState(null);
+  const fileInputRef = useRef();
 
   useEffect(() => {
     fetch('./recipes.json')
@@ -22,14 +29,21 @@ function App() {
   }, []);
 
   const handleFormChange = (e) => {
-    const { name, value } = e.target;
-    setForm((f) => ({ ...f, [name]: value }));
+    const { name, value, files } = e.target;
+    if (name === 'imageFile') {
+      setForm((f) => ({ ...f, imageFile: files[0] }));
+    } else {
+      setForm((f) => ({ ...f, [name]: value }));
+    }
   };
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
+    let imageUrl = form.image;
+    if (form.imageFile) {
+      imageUrl = URL.createObjectURL(form.imageFile);
+    }
     if (editId !== null) {
-      // Editing existing recipe
       setRecipes(recipes.map(r =>
         r.id === editId
           ? {
@@ -39,14 +53,13 @@ function App() {
               ingredients: form.ingredients.split('\n').map(s => s.trim()).filter(Boolean),
               instructions: form.instructions.split('\n').map(s => s.trim()).filter(Boolean),
               tags: form.tags.split(',').map(s => s.trim()).filter(Boolean),
-              image: form.image,
+              image: imageUrl,
               updatedAt: new Date().toISOString()
             }
           : r
       ));
       setEditId(null);
     } else {
-      // Creating new recipe
       const newRecipe = {
         id: recipes.length ? Math.max(...recipes.map(r => r.id)) + 1 : 1,
         title: form.title,
@@ -54,13 +67,14 @@ function App() {
         ingredients: form.ingredients.split('\n').map(s => s.trim()).filter(Boolean),
         instructions: form.instructions.split('\n').map(s => s.trim()).filter(Boolean),
         tags: form.tags.split(',').map(s => s.trim()).filter(Boolean),
-        image: form.image,
+        image: imageUrl,
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString()
       };
       setRecipes([newRecipe, ...recipes]);
     }
-    setForm({ title: '', description: '', ingredients: '', instructions: '', tags: '', image: '' });
+    setForm({ title: '', description: '', ingredients: '', instructions: '', tags: '', image: '', imageFile: null });
+    if (fileInputRef.current) fileInputRef.current.value = '';
     setShowForm(false);
   };
 
@@ -71,11 +85,13 @@ function App() {
       ingredients: recipe.ingredients.join('\n'),
       instructions: recipe.instructions.join('\n'),
       tags: recipe.tags ? recipe.tags.join(', ') : '',
-      image: recipe.image || ''
+      image: recipe.image || '',
+      imageFile: null
     });
     setShowForm(true);
     setEditId(recipe.id);
     setSelected(null);
+    if (fileInputRef.current) fileInputRef.current.value = '';
   };
   const filtered = recipes.filter(
     (r) =>
@@ -87,6 +103,24 @@ function App() {
     <div style={{ maxWidth: 800, margin: '2rem auto', fontFamily: 'Inter, sans-serif', background: '#fff', borderRadius: 12, boxShadow: '0 2px 16px #0001', padding: 32 }}>
       <h1 style={{ textAlign: 'center', letterSpacing: 1, fontWeight: 800, color: '#2a5', marginBottom: 32 }}>Digital Cookbook</h1>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
+              {/* Quick recipe list overview */}
+              {!selected && !showForm && recipes.length > 0 && (
+                <div style={{ marginBottom: 24, background: '#f6f8fa', borderRadius: 8, padding: '16px 20px', boxShadow: '0 1px 6px #0001' }}>
+                  <div style={{ fontWeight: 600, color: '#2a5', marginBottom: 6 }}>
+                    {recipes.length} Recipes:
+                  </div>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12 }}>
+                    {recipes.map(r => (
+                      <span key={r.id} style={{ background: '#e0f7e9', color: '#247a3c', borderRadius: 4, padding: '2px 10px', fontSize: 15, fontWeight: 500, cursor: 'pointer' }}
+                        onClick={() => setSelected(r)}
+                        title={r.title}
+                      >
+                        {r.title}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
         <input
           type="text"
           placeholder="Search recipes..."
