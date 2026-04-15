@@ -167,7 +167,7 @@ function App() {
             textTransform: 'uppercase',
           }}
         >
-          Minimalist Cookbook
+          CookMe, ByteMe
         </h1>
         <p style={{ color: '#b0b0b0', fontSize: 18, marginTop: 12, marginBottom: 0 }}>
           A minimalist, dark-themed website for your favorite recipes.
