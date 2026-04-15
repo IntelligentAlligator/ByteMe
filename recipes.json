@@ -1,0 +1,46 @@
+[
+  {
+    "id": 1,
+    "title": "Classic Pancakes",
+    "description": "Fluffy, classic pancakes perfect for breakfast.",
+    "ingredients": [
+      "1 1/2 cups all-purpose flour",
+      "3 1/2 tsp baking powder",
+      "1 tsp salt",
+      "1 tbsp sugar",
+      "1 1/4 cups milk",
+      "1 egg",
+      "3 tbsp butter, melted"
+    ],
+    "instructions": [
+      "In a large bowl, sift together the flour, baking powder, salt and sugar.",
+      "Make a well in the center and pour in the milk, egg and melted butter; mix until smooth.",
+      "Heat a lightly oiled griddle or frying pan over medium high heat.",
+      "Pour or scoop the batter onto the griddle, using approximately 1/4 cup for each pancake.",
+      "Brown on both sides and serve hot."
+    ],
+    "tags": ["breakfast", "easy"],
+    "image": "images/classic-pancakes.jpg",
+    "createdAt": "2026-04-15T10:00:00Z",
+    "updatedAt": "2026-04-15T10:00:00Z"
+  },
+  {
+    "id": 2,
+    "title": "Vegan Chili",
+    "description": "A hearty, spicy vegan chili.",
+    "ingredients": [
+      "2 cans beans",
+      "1 onion",
+      "2 tomatoes",
+      "spices"
+    ],
+    "instructions": [
+      "Chop vegetables.",
+      "Cook all ingredients together."
+    ],
+    "tags": ["vegan", "dinner", "spicy"],
+    "image": "images/vegan-chili.jpg",
+    "createdAt": "2026-04-15T10:00:00Z",
+    "updatedAt": "2026-04-15T10:00:00Z"
+  }
+]
