@@ -27,4 +27,45 @@
 		"createdAt": "2026-04-15T10:00:00Z",
 		"updatedAt": "2026-04-15T10:00:00Z"
 	}
+	,
+	{
+		"id": 2,
+		"title": "Lviv Cheesecake",
+		"description": "Authentic Lviv cheesecake with citrus zest, walnuts, raisins, and a rich chocolate glaze.",
+		"ingredients": [
+			"0.5 kg / 1 lb. cottage cheese",
+			"2 boiled potatoes",
+			"50 g / 3½ tbsp. unsalted butter",
+			"150 g / ½ cup sugar",
+			"3 eggs",
+			"Zest of 1 lemon",
+			"Zest of 1 orange",
+			"50 g / ½ cup chopped walnuts",
+			"10 g / 2 tsp. vanilla sugar",
+			"50 g / ⅓ cup raisins",
+			"1 tbsp. flour",
+			"A pinch of salt",
+			"For the chocolate glaze:",
+			"100 g / 3½ oz. dark chocolate (80% cocoa)",
+			"30 g / 2 tbsp. unsalted butter",
+			"80 ml / ⅓ cup whipping cream (33%)"
+		],
+		"instructions": [
+			"Preheat oven to 180°C / 350°F.",
+			"Mash salt, sugar and vanilla sugar into unsalted butter. Add lemon and orange zest.",
+			"Separate egg whites from egg yolks.",
+			"Add egg yolks to the butter mix one at a time, mixing with a whisk after each one until well-blended.",
+			"Grate boiled potatoes with a fine grater and add to the egg-and-butter mix.",
+			"Put the cheese through a sieve and add to the mix. Add raisins and knead well.",
+			"Beat egg whites until stiff and gently fold into the batter.",
+			"Grease the baking tray with unsalted butter and sprinkle with flour. Gently move the batter into the tray and smooth the surface.",
+			"Sprinkle the cheesecake with chopped walnuts. Bake for 1 hour.",
+			"Make the chocolate glaze: Mix chopped chocolate with unsalted butter and heavy cream in a heat-resistant bowl. Melt the mixture over boiling water, stirring constantly, until well-blended.",
+			"Pour the chocolate glaze over the cooled cooked cheesecake."
+		],
+		"tags": ["dessert", "ukrainian", "cheesecake", "lviv"],
+		"image": "images/lviv-cheesecake.jpg",
+		"createdAt": "2026-04-15T10:00:00Z",
+		"updatedAt": "2026-04-15T10:00:00Z"
+	}
 ]
