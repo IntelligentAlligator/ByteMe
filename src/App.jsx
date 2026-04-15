@@ -1,3 +1,5 @@
+import React, { useState, useEffect, useRef } from 'react';
+
 function App() {
   const darkBg = '#181c1f';
   const darkCard = '#23272b';
